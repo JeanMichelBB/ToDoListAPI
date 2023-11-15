@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Add some basic styling for the collapsible list */
+        .collapsible {
+            list-style-type: none;
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Style for the content that should be hidden initially */
+        .content {
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li class="collapsible">
+            Item 1
+            <div class="content">
+                Additional information for Item 1.
+            </div>
+        </li>
+        <li class="collapsible">
+            Item 2
+            <div class="content">
+                Additional information for Item 2.
+            </div>
+        </li>
+        <!-- Add more items as needed -->
+    </ul>
+
+    <script>
+        // Add click event listeners to each collapsible item
+        var collapsibles = document.querySelectorAll('.collapsible');
+
+        collapsibles.forEach(function(collapsible) {
+            var content = collapsible.querySelector('.content');
+
+            // Toggle the content when the collapsible item is clicked
+            collapsible.addEventListener('click', function() {
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+<li class="collapsible" draggable="true" ondragstart="dragStart(event)" ondragover="allowDrop(event)"
+                ondrop="drop(event)">
+                <div class="task">
+                    <input type="checkbox" class="checkbox" onchange="handleCheckboxChange(this)">
+                    <input type="text" class="task-input" value="Salut">
+                    <input type="date" class="task-date">
+                    <span class="info-icon" onclick="toggleExpandedBox(this, 'expanded-box-2')">&#9432;</span>
+                </div>
+                <div class="content">
+                    Additional information for Item 1.
+                    <!-- create subtask -->
+                    <ul id="taskList">
+                        <li class="collapsible" draggable="true" ondragstart="dragStart(event)"
+                            ondragover="allowDrop(event)" ondrop="drop(event)">
+                            <div class="task">
+                                <input type="checkbox" class="checkbox" onchange="handleCheckboxChange(this)">
+                                <input type="text" class="task-input" value="Salut">
+                                <input type="date" class="task-date">
+                                <span class="info-icon"
+                                    onclick="toggleExpandedBox(this, 'expanded-box-2')">&#9432;</span>
+                            </div>
+                            <div class="content">
+                                Additional information for Item 1.
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="task">
+                        <input type="text" id="newTaskInput" placeholder="Enter a new task..." onkeydown="addTask(event)">
+                    </div>
+
+                </div>
+            </li>
+

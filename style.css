@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+input {
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.todo-frame {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    background-color: #f4f4f4;
+    overflow-y: auto;
+}
+
+.task {
+    margin: 10px 0;
+}
+
+.title {
+    text-align: center;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.info-icon {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.task-date {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.show-more-button {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: grab;
+}
+
+li.dragging {
+    opacity: 0.5;
+}
+
+.content {
+    display: none;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
