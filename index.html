@@ -13,130 +13,142 @@
         <h2 class="title">To-Do List</h2>
         <ul id="taskList">
 
-            <li class="collapsible">
-                <div class="task">
-                    <input type="checkbox" class="checkbox" onchange="handleCheckboxChange(this)">
-                    <input type="text" class="task-input" value="${newTaskInput.value}">
-                    <input type="date" class="task-date">
-                    <span class="info-icon">&#9432;</span>
-                </div>
-                <div class="content">
-                    Additional information for Item 1.
-                </div>
-            </li>
         </ul>
         <div class="task">
-            <input type="text" id="newTaskInput" placeholder="Enter a new task..." onkeydown="addTask(event)">
+            <input type="text" id="newTaskInput" placeholder="Enter a new task...">
         </div>
-        <button class="show-more-button" onclick="showHiddenTasks()">Show hidden tasks</button>
+        <button class="show-more-button">Show hidden tasks</button>
     </div>
 
     <script>
-
         var draggedItem = null;
 
-        function dragStart(event) {
-            draggedItem = event.target;
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('text/html', draggedItem.innerHTML);
-        }
 
-        function allowDrop(event) {
-            event.preventDefault();
-            var draggedOverItem = event.target;
-            draggedOverItem.classList.add('dragging');
-        }
+    function dragStart(event) {
+        draggedItem = event.target;
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/html', draggedItem.innerHTML);
+    }
 
-        function drop(event) {
-            event.preventDefault();
-            var droppedOnItem = event.target;
-            draggedItem.innerHTML = droppedOnItem.innerHTML;
-            droppedOnItem.innerHTML = event.dataTransfer.getData('text/html');
-            draggedItem.classList.remove('dragging');
-        }
+    function allowDrop(event) {
+        event.preventDefault();
+        var draggedOverItem = event.target;
+        draggedOverItem.classList.add('dragging');
+    }
 
-        function toggleExpandedBox(infoIcon, expandedBoxId) {
-            const task = infoIcon.closest('.task');
-            const expandedBox = task.querySelector(`#${expandedBoxId}`);
-            expandedBox.style.display = expandedBox.style.display === 'block' ? 'none' : 'block';
-        }
+    function drop(event) {
+        event.preventDefault();
+        var droppedOnItem = event.target;
+        draggedItem.innerHTML = droppedOnItem.innerHTML;
+        droppedOnItem.innerHTML = event.dataTransfer.getData('text/html');
+        draggedItem.classList.remove('dragging');
+    }
 
-        function addCollapsibleEventListener(collapsible) {
-            var content = collapsible.querySelector('.content');
-            var span = collapsible.querySelector('.info-icon');
-        
-            span.addEventListener('click', function () {
-                console.log('clicked');
-                if (content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
-        }
-        
-        var collapsibles = document.querySelectorAll('.collapsible');
-        
-        collapsibles.forEach(function (collapsible) {
-            // Add event listener for existing collapsible items
-            addCollapsibleEventListener(collapsible);
+    function toggleExpandedBox(infoIcon, expandedBoxId) {
+        const task = infoIcon.closest('.task');
+        const expandedBox = task.querySelector(`#${expandedBoxId}`);
+        expandedBox.style.display = expandedBox.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addCollapsibleEventListener(collapsible) {
+        var content = collapsible.querySelector('.content');
+        var span = collapsible.querySelector('.info-icon');
+
+        span.addEventListener('click', function () {
+            console.log('clicked');
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
         });
+    }
 
-        function addTask(event) {
-            if (event.key === 'Enter') {
-                const newTaskInput = document.getElementById('newTaskInput');
-                const taskList = document.getElementById('taskList');
+    var collapsibles = document.querySelectorAll('.collapsible');
 
-                const newTask = document.createElement('li');
-                newTask.draggable = true;
-                newTask.ondragstart = function (event) {
-                    dragStart(event);
-                };
-                newTask.ondragover = function (event) {
-                    allowDrop(event);
-                };
-                newTask.ondrop = function (event) {
-                    drop(event);
-                };
-                newTask.innerHTML = `
-                <div class="task">
-                    <input type="checkbox" class="checkbox" onchange="handleCheckboxChange(this)">
-                    <input type="text" class="task-input" value="${newTaskInput.value}">
-                    <input type="date" class="task-date">
-                    <span class="info-icon">&#9432;</span>
-                </div>
-                <div class="content">
-                    Additional information for Item 1.
-                </div>`;
-                newTask.classList.add('collapsible');
+    collapsibles.forEach(function (collapsible) {
+        // Add event listener for existing collapsible items
+        addCollapsibleEventListener(collapsible);
+    });
 
-                // Insert the new task at the button of the task list
-                taskList.appendChild(newTask);
+    function addTask(event) {
+        if (event.key === 'Enter') {
+            const newTaskInput = document.getElementById('newTaskInput');
+            const taskList = document.getElementById('taskList');
 
-                addCollapsibleEventListener(newTask);
+            const newTask = document.createElement('li');
+            newTask.draggable = true;
+            newTask.ondragstart = function (event) {
+                dragStart(event);
+            };
+            newTask.ondragover = function (event) {
+                allowDrop(event);
+            };
+            newTask.ondrop = function (event) {
+                drop(event);
+            };
+            newTask.innerHTML = `
+        <div class="task">
+            <input type="checkbox" class="checkbox" onchange="handleCheckboxChange(this)">
+            <input type="text" class="task-input" value="${newTaskInput.value}">
+            <input type="date" class="task-date">
+            <span class="info-icon">&#9432;</span>
+        </div>
+        <div class="content">
+            <input type="text" placeholder="Notes">
+        </div>`;
+            newTask.classList.add('collapsible');
 
-                // Clear the input field
-                newTaskInput.value = '';
+            // Insert the new task at the button of the task list
+            taskList.appendChild(newTask);
+
+            addCollapsibleEventListener(newTask);
+
+            // Clear the input field
+            newTaskInput.value = '';
+        }
+    }
+    function handleCheckboxChange(checkbox) {
+        const task = checkbox.closest('li');
+        
+        if (checkbox.checked) {
+            // Set a timeout to hide the task after 2 seconds
+            const timeoutId = setTimeout(function () {
+                task.classList.add('hidden-task');
+                task.style.display = 'none'; // Hide the task
+            }, 2000);
+    
+            // Add a data attribute to store the timeout ID on the task element
+            task.dataset.timeoutId = timeoutId;
+        } else {
+            // If the checkbox is unchecked, cancel the timeout
+            const timeoutId = task.dataset.timeoutId;
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                delete task.dataset.timeoutId;
             }
         }
-        function handleCheckboxChange(checkbox) {
-            const task = checkbox.closest('li');
-            if (checkbox.checked) {
-                setTimeout(function () {
-                    task.classList.add('hidden-task');
-                    task.style.display = 'none'; // Hide the task
-                }, 2000);
+    }
+    
+    function showHiddenTasks() {
+        const hiddenTasks = document.querySelectorAll('.hidden-task');
+    
+        hiddenTasks.forEach(task => {
+            if (task.style.display === 'none' || window.getComputedStyle(task).display === 'none') {
+                task.style.display = 'block';
+            } else {
+                task.style.display = 'none';
             }
-        }
-
-        function showHiddenTasks() {
-            const hiddenTasks = document.querySelectorAll('.hidden-task');
-            hiddenTasks.forEach(task => {
-                task.classList.remove('hidden-task');
-                task.style.display = 'block'; // Show the task
-                taskList.appendChild(task);
-            });
-        }
+        });
+    
+        // Update button text based on the visibility of hidden tasks
+        const showMoreButton = document.querySelector('.show-more-button');
+        showMoreButton.textContent = showMoreButton.textContent === 'Show hidden tasks' ? 'Hide hidden tasks' : 'Show hidden tasks';
+    }
+    
+    document.querySelector('.show-more-button').addEventListener('click', showHiddenTasks);
+    
+    document.getElementById('newTaskInput').addEventListener('keydown', addTask);
     </script>
 </body>
 

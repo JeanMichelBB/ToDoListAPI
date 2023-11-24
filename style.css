@@ -18,11 +18,6 @@ input {
     background-color: #f4f4f4;
     overflow-y: auto;
 }
-
-.task {
-    margin: 10px 0;
-}
-
 .title {
     text-align: center;
     background-color: #3498db;
@@ -86,4 +81,18 @@ li.dragging {
     display: none;
     padding: 10px;
     border-top: 1px solid #ddd;
+}
+.task-in-progress {
+    display: block;
+}
+.task-finish {
+    display: none;
+}
+.show-more-button-visible {
+    /* text the button: Show finish tasks */
+    content: "Show finish tasks";
+}
+.show-more-button-hidden {
+    /* text the button: Hide finish tasks */
+    content: "Hide finish tasks";
 }
