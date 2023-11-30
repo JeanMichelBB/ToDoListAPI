@@ -23,18 +23,20 @@ def get_task(task_id: int):
     except IndexError:
         raise HTTPException(status_code=404, detail="Task not found")
 
-@router.delete("/tasks/{task_id}")
-def delete_task(task_id: int):
+@router.put("/tasks/{task_id}", response_model=Task)
+def update_task(task_id: int, updated_task: Task):
     try:
-        tasks.pop(task_id)
-        return {"detail": "Task deleted successfully"}
+        # Update the task with the provided ID in the task the id of the task to be updated
+        tasks = [task if task.id != task_id else updated_task for task in tasks]
+        return updated_task
     except IndexError:
         raise HTTPException(status_code=404, detail="Task not found")
-
-@router.put("/tasks/{task_id}", response_model=Task)
-def update_task(task_id: int, task: Task):
+    
+@router.delete("/tasks/{task_id}")
+def delete_task(task_id: int):
+    global tasks
     try:
-        tasks[task_id] = task
-        return task
+        tasks = [task for task in tasks if task.id != task_id]
+        return {"detail": "Task deleted successfully"}
     except IndexError:
         raise HTTPException(status_code=404, detail="Task not found")
