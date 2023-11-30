@@ -44,7 +44,6 @@ input {
 }
 
 .task-date {
-    margin-left: auto;
     margin-right: 10px;
 }
 
@@ -96,3 +95,22 @@ li.dragging {
     /* text the button: Hide finish tasks */
     content: "Hide finish tasks";
 }
+.deleteButton {
+    margin-left: auto;
+    cursor: pointer;
+}
+.saveButton {
+    margin-left: auto;
+    cursor: pointer;
+}
+.subtaskInput {
+    margin-left: 10px;
+    width: 50%;
+}
+.notesInput {
+    border: none;
+    outline: none;
+    background: none;
+
+}
+

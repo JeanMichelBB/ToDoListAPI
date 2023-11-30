@@ -3,10 +3,9 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 class Task(BaseModel):
+    completed: bool = False
     title: str
-    description: Optional[str] = None
     due_date: Optional[str] = None
-    reminders: Optional[List[str]] = []
     notes: Optional[str] = None
     subtasks: Optional[List[str]] = []
 
