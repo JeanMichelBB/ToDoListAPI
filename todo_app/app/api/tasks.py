@@ -26,8 +26,8 @@ def get_task(task_id: int):
 @router.put("/tasks/{task_id}", response_model=Task)
 def update_task(task_id: int, updated_task: Task):
     try:
-        # Update the task with the provided ID in the task the id of the task to be updated
-        tasks = [task if task.id != task_id else updated_task for task in tasks]
+        task_id = task_id - 1
+        tasks[task_id] = updated_task
         return updated_task
     except IndexError:
         raise HTTPException(status_code=404, detail="Task not found")
