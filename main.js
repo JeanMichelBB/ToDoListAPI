@@ -2,12 +2,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch tasks on page load
     getTasks();
+    getLastId();
 
+    lastId = 1;
     // Function to create a task
     function addTask(event) {
         console.log('Creating task...');
         const title = document.getElementById('newTaskInput').value;
-        const id = Math.floor(Math.random() * 1000); // Generate a random ID
+        const id = lastId
+        lastId += 1
 
         const taskData = {
             id: id,
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     taskItem.innerHTML = `
                         <div class="task">
                             <input type="checkbox" class="checkbox" id="task-${task.id}">
+                            
                             <input type="text" class="task-input edit" value="${task.title}">
                         </div>
                     `;
@@ -102,12 +106,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error(`Error deleting task ${taskId}:`, error));
     }
     function updateTask(taskId, updatedTitle) {
+        const payload = { id: taskId, title: updatedTitle };
+        console.log('Payload:', payload); // Log the payload to the console
+
         fetch(`http://localhost:8000/api/v1/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: taskId, title: updatedTitle }),
+            body: JSON.stringify(payload),
         })
             .then(response => {
                 if (!response.ok) {
@@ -125,12 +132,28 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
     
-    
+
+    // create a function that get the last id from the database and if it is null set it to 1 and re
+    function getLastId() {
+        fetch('http://localhost:8000/api/v1/tasks/')
+            .then(response => response.json())
+            .then(tasks => {
+                if (tasks.length > 0) {
+                    lastId = tasks[tasks.length - 1].id + 1
+                }
+                else {
+                    lastId = 1
+                }
+            })
+            .catch(error => console.error('Error fetching tasks:', error));
+    }
+
+
 
     document.getElementById('newTaskInput').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             addTask();
         }
     });
-    
+
 });
